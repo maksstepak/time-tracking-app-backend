@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -16,13 +17,16 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $email
  * @property ?Carbon $email_verified_at
  * @property string $password
+ * @property bool $is_admin
+ * @property ?string $job_title
  * @property ?string $remember_token
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property ?Carbon $deleted_at
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -33,6 +37,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
+        'job_title',
     ];
 
     /**
@@ -52,5 +58,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean',
     ];
 }

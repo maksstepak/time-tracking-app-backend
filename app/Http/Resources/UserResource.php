@@ -13,6 +13,8 @@ use OpenApi\Attributes as OA;
     new OA\Property(property: 'id', type: 'integer'),
     new OA\Property(property: 'name', type: 'string'),
     new OA\Property(property: 'email', type: 'string'),
+    new OA\Property(property: 'isAdmin', type: 'boolean'),
+    new OA\Property(property: 'jobTitle', type: 'string', nullable: true),
     new OA\Property(property: 'createdAt', type: 'string'),
     new OA\Property(property: 'updatedAt', type: 'string'),
 ])]
@@ -24,6 +26,8 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'isAdmin' => $this->is_admin,
+            'jobTitle' => $this->job_title,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];
