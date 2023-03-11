@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +20,6 @@ Route::post('/login', [AuthenticationController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthenticationController::class, 'getCurrentUser']);
     Route::post('/logout', [AuthenticationController::class, 'logout']);
+
+    Route::apiResource('users', UserController::class);
 });
