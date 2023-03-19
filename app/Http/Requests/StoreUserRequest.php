@@ -22,9 +22,9 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'email' => 'required|email|unique:users',
-            'name' => 'required|string',
+            'name' => 'required|string|max:64',
             'password' => ['required', Password::min(8)],
-            'jobTitle' => 'present|nullable|string',
+            'jobTitle' => 'present|nullable|string|max:64',
             'isAdmin' => 'required|boolean',
         ];
     }

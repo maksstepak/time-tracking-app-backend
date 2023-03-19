@@ -20,9 +20,9 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|string|max:64',
             'password' => ['present', 'nullable', Password::min(8)],
-            'jobTitle' => 'present|nullable|string',
+            'jobTitle' => 'present|nullable|string|max:64',
             'isAdmin' => 'required|boolean',
         ];
     }

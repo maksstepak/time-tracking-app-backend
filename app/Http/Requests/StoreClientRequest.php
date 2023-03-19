@@ -19,10 +19,10 @@ class StoreClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'description' => 'present|nullable|string',
-            'contactEmail' => 'present|nullable|string',
-            'contactPhone' => 'present|nullable|string',
+            'name' => 'required|string|max:64',
+            'description' => 'present|nullable|string|max:10000',
+            'contactEmail' => 'present|nullable|string|max:255',
+            'contactPhone' => 'present|nullable|string|max:255',
         ];
     }
 }
