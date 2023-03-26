@@ -8,8 +8,8 @@ class CreateUserDTO
         public string $email,
         public string $name,
         public string $password,
-        public ?string $jobTitle,
-        public bool $isAdmin,
+        public ?string $jobTitle = null,
+        public bool $isAdmin = false,
     ) {
     }
 }
