@@ -82,7 +82,7 @@ class ClientController
     {
         Gate::authorize('delete', $client);
 
-        $client->delete();
+        $this->clientService->delete($client);
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }

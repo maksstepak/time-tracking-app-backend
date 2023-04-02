@@ -7,6 +7,7 @@ use App\DTO\GetClientListDTO;
 use App\DTO\UpdateClientDTO;
 use App\Models\Client;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class ClientService
 {
@@ -37,5 +38,13 @@ class ClientService
         $client->contact_email = $dto->contactEmail;
         $client->contact_phone = $dto->contactPhone;
         $client->save();
+    }
+
+    public function delete(Client $client): void
+    {
+        DB::transaction(function () use ($client) {
+            $client->projects()->delete();
+            $client->delete();
+        });
     }
 }

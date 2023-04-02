@@ -20,6 +20,6 @@ class DatabaseSeeder extends Seeder
         User::factory(3)->admin()->create();
         User::factory(10)->create();
 
-        Client::factory(15)->create();
+        Client::factory(15)->hasProjects(3)->create();
     }
 }
