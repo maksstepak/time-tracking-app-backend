@@ -225,6 +225,28 @@
                 ]
             }
         },
+        "/api/clients/select-options": {
+            "get": {
+                "operationId": "48ced362c6e66bc36d32e2e1bb54996c",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClientSelectOptionCollection"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/projects": {
             "get": {
                 "operationId": "8d4a13ef3fc773ff4031e515460919ea",
@@ -694,6 +716,23 @@
                         "type": "string"
                     },
                     "updatedAt": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ClientSelectOptionCollection": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/ClientSelectOptionResource"
+                }
+            },
+            "ClientSelectOptionResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "label": {
                         "type": "string"
                     }
                 },

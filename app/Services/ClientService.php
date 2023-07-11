@@ -6,6 +6,7 @@ use App\DTO\CreateClientDTO;
 use App\DTO\GetClientListDTO;
 use App\DTO\UpdateClientDTO;
 use App\Models\Client;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
@@ -46,5 +47,15 @@ class ClientService
             $client->projects()->delete();
             $client->delete();
         });
+    }
+
+    public function getSelectOptions(): Collection
+    {
+        $builder = Client::query();
+
+        $builder->orderBy('name')
+            ->orderByDesc('created_at');
+
+        return $builder->get(['id', 'name']);
     }
 }

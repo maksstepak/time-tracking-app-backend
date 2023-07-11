@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 
     Route::apiResource('users', UserController::class);
+    Route::get('/clients/select-options', [ClientController::class, 'getSelectOptions']);
     Route::apiResource('clients', ClientController::class);
     Route::apiResource('projects', ProjectController::class)->except(['store']);
     Route::post('/clients/{client}/projects', [ProjectController::class, 'store']);

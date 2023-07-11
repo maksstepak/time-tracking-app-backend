@@ -10,6 +10,7 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientPaginatedCollection;
 use App\Http\Resources\ClientResource;
+use App\Http\Resources\ClientSelectOptionCollection;
 use App\Models\Client;
 use App\Services\ClientService;
 use Illuminate\Http\JsonResponse;
@@ -85,5 +86,16 @@ class ClientController
         $this->clientService->delete($client);
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    #[OA\Get(path: '/api/clients/select-options', security: [['bearerAuth' => []]])]
+    #[OA\Response(response: Response::HTTP_OK, description: 'OK', content: new OA\JsonContent(ref: '#/components/schemas/ClientSelectOptionCollection'))]
+    public function getSelectOptions(): JsonResponse
+    {
+        Gate::authorize('viewAny', Client::class);
+
+        $selectOptions = $this->clientService->getSelectOptions();
+
+        return response()->json(new ClientSelectOptionCollection($selectOptions));
     }
 }
