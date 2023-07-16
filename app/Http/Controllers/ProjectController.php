@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\AssignUsersToProjectDTO;
 use App\DTO\CreateProjectDTO;
 use App\DTO\GetProjectListDTO;
+use App\DTO\RemoveUsersFromProjectDTO;
 use App\DTO\UpdateProjectDTO;
+use App\Exceptions\UserAlreadyAssignedToProjectException;
+use App\Exceptions\UserNotAssignedToProjectException;
+use App\Http\Requests\AssignUsersToProjectRequest;
 use App\Http\Requests\GetProjectListRequest;
+use App\Http\Requests\RemoveUsersFromProjectRequest;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Resources\ProjectPaginatedCollection;
@@ -87,6 +93,42 @@ class ProjectController
         Gate::authorize('delete', $project);
 
         $project->delete();
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    #[OA\Post(path: '/api/projects/{projectId}/assign-users', security: [['bearerAuth' => []]])]
+    #[OA\Parameter(name: 'projectId', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))]
+    #[OA\RequestBody(content: new OA\JsonContent(ref: '#/components/schemas/AssignUsersToProjectRequest'))]
+    #[OA\Response(response: Response::HTTP_NO_CONTENT, description: 'OK')]
+    public function assignUsers(Project $project, AssignUsersToProjectRequest $request): JsonResponse
+    {
+        Gate::authorize('assignUsers', $project);
+        $dto = new AssignUsersToProjectDTO(...$request->validated());
+
+        try {
+            $this->projectService->assignUsers($project, $dto);
+        } catch (UserAlreadyAssignedToProjectException) {
+            return response()->json(['error' => 'userAlreadyAssignedToProject'], Response::HTTP_BAD_REQUEST);
+        }
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    #[OA\Post(path: '/api/projects/{projectId}/remove-users', security: [['bearerAuth' => []]])]
+    #[OA\Parameter(name: 'projectId', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))]
+    #[OA\RequestBody(content: new OA\JsonContent(ref: '#/components/schemas/RemoveUsersFromProjectRequest'))]
+    #[OA\Response(response: Response::HTTP_NO_CONTENT, description: 'OK')]
+    public function removeUsers(Project $project, RemoveUsersFromProjectRequest $request): JsonResponse
+    {
+        Gate::authorize('removeUsers', $project);
+        $dto = new RemoveUsersFromProjectDTO(...$request->validated());
+
+        try {
+            $this->projectService->removeUsers($project, $dto);
+        } catch (UserNotAssignedToProjectException) {
+            return response()->json(['error' => 'userNotAssignedToProject'], Response::HTTP_BAD_REQUEST);
+        }
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }

@@ -408,6 +408,74 @@
                 ]
             }
         },
+        "/api/projects/{projectId}/assign-users": {
+            "post": {
+                "operationId": "4b233ab07e650f6e0d24b0d0e91c5ffd",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AssignUsersToProjectRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/projects/{projectId}/remove-users": {
+            "post": {
+                "operationId": "c2b6156486f4de942ec0a05311f6c999",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RemoveUsersFromProjectRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/users": {
             "get": {
                 "operationId": "c457726701591d1183b53aa71fc13441",
@@ -560,6 +628,17 @@
     },
     "components": {
         "schemas": {
+            "AssignUsersToProjectRequest": {
+                "properties": {
+                    "userIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "LoginUserRequest": {
                 "properties": {
                     "email": {
@@ -567,6 +646,17 @@
                     },
                     "password": {
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "RemoveUsersFromProjectRequest": {
+                "properties": {
+                    "userIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
                     }
                 },
                 "type": "object"

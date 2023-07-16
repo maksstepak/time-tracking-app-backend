@@ -28,4 +28,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('clients', ClientController::class);
     Route::apiResource('projects', ProjectController::class)->except(['store']);
     Route::post('/clients/{client}/projects', [ProjectController::class, 'store']);
+    Route::post('/projects/{project}/assign-users', [ProjectController::class, 'assignUsers']);
+    Route::post('/projects/{project}/remove-users', [ProjectController::class, 'removeUsers']);
 });
