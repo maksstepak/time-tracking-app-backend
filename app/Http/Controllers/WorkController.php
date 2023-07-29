@@ -24,8 +24,7 @@ class WorkController
 {
     public function __construct(
         private WorkService $workService,
-    )
-    {
+    ) {
     }
 
     #[OA\Get(path: '/api/users/{userId}/works', security: [['bearerAuth' => []]])]

@@ -46,7 +46,7 @@ class WorkService
         /** @var Project $project */
         $project = Project::query()->find($dto->projectId);
         $isUserAssignedToProject = $project->users()->where('users.id', $work->user_id)->exists();
-        if (!$isUserAssignedToProject) {
+        if (! $isUserAssignedToProject) {
             throw new UserNotAssignedToProjectException();
         }
 
