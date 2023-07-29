@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,10 +25,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 
     Route::apiResource('users', UserController::class);
+
     Route::get('/clients/select-options', [ClientController::class, 'getSelectOptions']);
     Route::apiResource('clients', ClientController::class);
+
     Route::apiResource('projects', ProjectController::class)->except(['store']);
     Route::post('/clients/{client}/projects', [ProjectController::class, 'store']);
     Route::post('/projects/{project}/assign-users', [ProjectController::class, 'assignUsers']);
     Route::post('/projects/{project}/remove-users', [ProjectController::class, 'removeUsers']);
+
+    Route::post('/projects/{project}/works', [WorkController::class, 'store']);
+    Route::get('/users/{user}/works', [WorkController::class, 'getUserWorkList']);
+    Route::apiResource('works', WorkController::class)->except(['index', 'store']);
 });

@@ -624,6 +624,175 @@
                     }
                 ]
             }
+        },
+        "/api/users/{userId}/works": {
+            "get": {
+                "operationId": "e1c418a365fad41f8360ae7ade4f78c9",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WorkPaginatedCollection"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/projects/{projectId}/works": {
+            "post": {
+                "operationId": "bdc79ff37e8a8908a6520798ae0c091a",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreWorkRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/works/{workId}": {
+            "get": {
+                "operationId": "d449e54c4dd901c7b91b014dc684a7ac",
+                "parameters": [
+                    {
+                        "name": "workId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WorkResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "92e77fc08c27741d747340a6dfc44cc8",
+                "parameters": [
+                    {
+                        "name": "workId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateWorkRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "operationId": "dee6147b821e1e534b827df53af1b5e9",
+                "parameters": [
+                    {
+                        "name": "workId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -714,6 +883,21 @@
                 },
                 "type": "object"
             },
+            "StoreWorkRequest": {
+                "properties": {
+                    "date": {
+                        "type": "string"
+                    },
+                    "hours": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "UpdateClientRequest": {
                 "properties": {
                     "name": {
@@ -761,6 +945,24 @@
                     },
                     "isAdmin": {
                         "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateWorkRequest": {
+                "properties": {
+                    "projectId": {
+                        "type": "integer"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "hours": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "description": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -903,6 +1105,46 @@
                     "jobTitle": {
                         "type": "string",
                         "nullable": true
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "WorkPaginatedCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/WorkResource"
+                        }
+                    },
+                    "total": {
+                        "type": "integer"
+                    },
+                    "lastPage": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "WorkResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "hours": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
                     },
                     "createdAt": {
                         "type": "string"
