@@ -31,7 +31,7 @@ cp .env.example .env
 # Run tests
 ./vendor/bin/sail artisan test
 
-# Fix the code styling
+# Fix the code formatting
 ./vendor/bin/sail bin pint
 
 # Generate the documentation
