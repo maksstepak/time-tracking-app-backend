@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Work;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
 
@@ -27,6 +28,12 @@ class DatabaseSeeder extends Seeder
             $client->projects->each(function (Project $project) use ($users) {
                 $usersToAssign = $users->random(3);
                 $project->users()->sync($usersToAssign->pluck('id')->toArray());
+                $project->users->each(function (User $user) use ($project) {
+                    Work::factory(3)->create([
+                        'user_id' => $user->id,
+                        'project_id' => $project->id,
+                    ]);
+                });
             });
         });
     }
